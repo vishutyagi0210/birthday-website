@@ -142,8 +142,21 @@ function createWordCloud() {
     element.classList.add('word-cloud-item');
     element.textContent = word;
     
-    const size = Math.random() * 24 + 12; // Random size between 12px and 36px
-    element.style.fontSize = `${size}px`;
+    // const size = Math.random() * 24 + 12; // Random size between 12px and 36px
+    // element.style.fontSize = `${size}px`;
+
+    let size;
+
+      if (window.innerWidth <= 768) {
+        // Phone screens (<= 768px width)
+          size = Math.random() * 15 + 15; // Random size between 15px and 30px
+      } else {
+        // Tablets and laptops (> 768px width)
+          size = Math.random() * 6 + 30; // Random size between 30px and 36px
+}
+
+element.style.fontSize = `${size}px`;
+
     
     const left = Math.random() * 90 + 5; // Random position
     const top = Math.random() * 90 + 5;
