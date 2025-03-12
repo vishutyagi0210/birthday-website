@@ -123,7 +123,6 @@ function updateCountdown() {
 
   document.getElementById('countdown-timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
-
 setInterval(updateCountdown, 1000);
 
 function createWordCloud() {
@@ -134,41 +133,55 @@ function createWordCloud() {
     "Energetic", "Passionate", "Determined", "Unique", "Extraordinary", "Radiant",
     "Joyful", "Beloved", "Cherished", "Special", "Unforgettable", "Fantastic"
   ];
-
+  
   const colors = ['#ff6b6b', '#48dbfb', '#7d5fff', '#1dd1a1', '#feca57', '#ff9ff3'];
-
+  
+  // Clear existing words
+  wordCloud.innerHTML = '';
+  
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  
   words.forEach((word) => {
     const element = document.createElement('div');
     element.classList.add('word-cloud-item');
     element.textContent = word;
     
-    // const size = Math.random() * 24 + 12; // Random size between 12px and 36px
-    // element.style.fontSize = `${size}px`;
-
+    // Responsive font sizing
     let size;
-
-      if (window.innerWidth <= 768) {
-        // Phone screens (<= 768px width)
-          size = Math.random() * 15 + 15; // Random size between 15px and 30px
-      } else {
-        // Tablets and laptops (> 768px width)
-          size = Math.random() * 6 + 30; // Random size between 30px and 36px
-}
-
-element.style.fontSize = `${size}px`;
-
+    if (windowWidth <= 768) {
+      // Phone screens
+      size = Math.random() * 14 + 16; // 12px to 26px
+    } else {
+      // Larger screens
+      size = Math.random() * 16 + 30; // 20px to 36px
+    }
+    element.style.fontSize = `${size}px`;
     
-    const left = Math.random() * 90 + 5; // Random position
-    const top = Math.random() * 90 + 5;
-    element.style.left = `${left}%`;
-    element.style.top = `${top}%`;
+    // Add the element to DOM temporarily to measure its width and height
+    element.style.visibility = 'hidden';
+    element.style.position = 'absolute';
+    wordCloud.appendChild(element);
+    const wordWidth = element.offsetWidth;
+    const wordHeight = element.offsetHeight;
+    
+    // Calculate position to ensure the word stays within the screen
+    // We leave a small margin (the word's own size) from the edges
+    const maxLeft = windowWidth - wordWidth;
+    const maxTop = windowHeight - wordHeight;
+    
+    const left = Math.random() * maxLeft;
+    const top = Math.random() * maxTop;
+    
+    element.style.left = `${left}px`;
+    element.style.top = `${top}px`;
+    element.style.visibility = 'visible';
     
     element.style.color = colors[Math.floor(Math.random() * colors.length)];
-    
-    wordCloud.appendChild(element);
   });
-
-  setInterval(toggleWordVisibility, 800);
+  
+  // Start animation
+  setInterval(toggleWordVisibility, 900);
 }
 
 function toggleWordVisibility() {
@@ -180,4 +193,8 @@ function toggleWordVisibility() {
   });
 }
 
+// Initial creation
 window.addEventListener('load', createWordCloud);
+
+// Recalculate on resize for responsiveness
+window.addEventListener('resize', createWordCloud);
