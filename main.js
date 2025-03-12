@@ -125,3 +125,46 @@ function updateCountdown() {
 }
 
 setInterval(updateCountdown, 1000);
+
+function createWordCloud() {
+  const wordCloud = document.getElementById('word-cloud');
+  const words = [
+    "Happy Birthday!", "Wonderful", "Amazing", "Brilliant", "Kind", "Thoughtful",
+    "Creative", "Inspiring", "Talented", "Generous", "Funny", "Caring",
+    "Energetic", "Passionate", "Determined", "Unique", "Extraordinary", "Radiant",
+    "Joyful", "Beloved", "Cherished", "Special", "Unforgettable", "Fantastic"
+  ];
+
+  const colors = ['#ff6b6b', '#48dbfb', '#7d5fff', '#1dd1a1', '#feca57', '#ff9ff3'];
+
+  words.forEach((word) => {
+    const element = document.createElement('div');
+    element.classList.add('word-cloud-item');
+    element.textContent = word;
+    
+    const size = Math.random() * 24 + 12; // Random size between 12px and 36px
+    element.style.fontSize = `${size}px`;
+    
+    const left = Math.random() * 90 + 5; // Random position
+    const top = Math.random() * 90 + 5;
+    element.style.left = `${left}%`;
+    element.style.top = `${top}%`;
+    
+    element.style.color = colors[Math.floor(Math.random() * colors.length)];
+    
+    wordCloud.appendChild(element);
+  });
+
+  setInterval(toggleWordVisibility, 800);
+}
+
+function toggleWordVisibility() {
+  const words = document.querySelectorAll('.word-cloud-item');
+  words.forEach(word => {
+    if (Math.random() > 0.5) {
+      word.style.opacity = word.style.opacity === '0' ? '1' : '0';
+    }
+  });
+}
+
+window.addEventListener('load', createWordCloud);
