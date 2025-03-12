@@ -86,3 +86,42 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+// window.addEventListener('load', () => {
+//   const message = document.getElementById('personal-message');
+//   message.style.display = 'block';
+//   setTimeout(() => {
+//     message.style.display = 'none';
+//   }, 2000);
+// });
+
+function adjustContainerPadding() {
+  const countdown = document.getElementById('countdown');
+  const container = document.querySelector('.container');
+  const countdownHeight = countdown.offsetHeight;
+  const currentPadding = parseInt(window.getComputedStyle(container).paddingBottom);
+  container.style.paddingBottom = `${Math.max(currentPadding, countdownHeight + 40)}px`;
+}
+
+window.addEventListener('load', adjustContainerPadding);
+window.addEventListener('resize', adjustContainerPadding);
+
+
+function updateCountdown() {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const birthdate = new Date(currentYear, 5, 15); // Change month (0-11) and day as needed
+
+  if (now > birthdate) {
+    birthdate.setFullYear(currentYear + 1);
+  }
+
+  const difference = birthdate - now;
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+  document.getElementById('countdown-timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+setInterval(updateCountdown, 1000);
