@@ -213,31 +213,11 @@ window.addEventListener('resize', createWordCloud);
 
 
 
-// // Add this to your main.js file
-// document.addEventListener('DOMContentLoaded', function() {
-//   const musicToggle = document.getElementById('music-toggle');
-//   const music = document.getElementById('background-music');
-//   musicToggle.addEventListener('click', function() {
-//     if (music.paused) {
-//       music.play();
-//       musicToggle.classList.add('playing');
-//     } else {
-//       music.pause();
-//       musicToggle.classList.remove('playing');
-//     }
-//   });
-// });
-
-document.addEventListener('DOMContentLoaded', function () {
+// Add this to your main.js file
+document.addEventListener('DOMContentLoaded', function() {
   const musicToggle = document.getElementById('music-toggle');
   const music = document.getElementById('background-music');
-
-  // Attempt to play the music automatically
-  music.play().catch(error => {
-    console.log('Autoplay prevented:', error);
-  });
-
-  musicToggle.addEventListener('click', function () {
+  musicToggle.addEventListener('click', function() {
     if (music.paused) {
       music.play();
       musicToggle.classList.add('playing');
