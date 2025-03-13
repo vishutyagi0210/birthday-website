@@ -109,8 +109,9 @@ window.addEventListener('resize', adjustContainerPadding);
 function updateCountdown() {
   const now = new Date();
   const currentYear = now.getFullYear();
-  const birthdate = new Date(currentYear, 5, 15); // Change month (0-11) and day as needed
+  const birthdate = new Date(currentYear, 2, 14); // March is month 2 (0-indexed)
 
+  // If today's date is past this year's birthday, calculate for next year
   if (now > birthdate) {
     birthdate.setFullYear(currentYear + 1);
   }
@@ -122,8 +123,18 @@ function updateCountdown() {
   const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
   document.getElementById('countdown-timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  
+  // Optional message when it's birthday
+  if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+    document.getElementById('countdown-timer').innerHTML += " <br>Happy Birthday!";
+  }
 }
+
+// Update countdown every second
 setInterval(updateCountdown, 1000);
+
+// Initialize countdown on page load
+updateCountdown();
 
 function createWordCloud() {
   const wordCloud = document.getElementById('word-cloud');
@@ -151,10 +162,10 @@ function createWordCloud() {
     let size;
     if (windowWidth <= 768) {
       // Phone screens
-      size = Math.random() * 14 + 16; // 12px to 26px
+      size = Math.random() * 14 + 20; // 12px to 26px
     } else {
       // Larger screens
-      size = Math.random() * 16 + 30; // 20px to 36px
+      size = Math.random() * 16 + 34; // 20px to 36px
     }
     element.style.fontSize = `${size}px`;
     
